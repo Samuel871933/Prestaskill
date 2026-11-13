@@ -12,7 +12,7 @@ Tu travailles sur PrestaShop. Le comportement correct dépend **de la version** 
 
 ## Étape 0 — Lire `PRESTASHOP.md` (mémoire du projet)
 
-S'il existe à la racine du projet, lis-le **avant tout** et fais-lui confiance : version, préfixes, thème, modules du projet, overrides, décisions. N'explore le code que pour ce qu'il ne dit pas. S'il manque, crée-le dès que la tâche modifie le projet (pas pour une simple question). À la fin de chaque tâche qui change quelque chose, mets-le à jour. Format et règles : `references/project-file.md`.
+S'il existe (racine du projet, ou dossier parent de la boutique : voir `references/project-file.md` § Emplacement), lis-le **avant tout** et fais-lui confiance : version, préfixes, thème, modules du projet, overrides, décisions. N'explore le code que pour ce qu'il ne dit pas. S'il manque et que la tâche modifie le projet (pas pour une simple question) : crée-le **avant d'écrire le premier fichier** (une session peut être coupée à tout moment), puis mets-le à jour au fil de l'eau, à chaque étape terminée, pas seulement à la fin. Format et règles : `references/project-file.md`.
 
 Si `PRESTASHOP.md` donne déjà la version et la config, saute les étapes 1 et 2.
 

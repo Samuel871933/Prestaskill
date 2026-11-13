@@ -1,6 +1,12 @@
 # PRESTASHOP.md — mémoire du projet
 
-Fichier à la racine du projet (boutique ou module isolé). Il remplace l'exploration du code à chaque session : **lis-le en premier, mets-le à jour en dernier**.
+Fichier à la racine du projet (emplacement exact : § Emplacement). Il remplace l'exploration du code à chaque session : **lis-le en premier, mets-le à jour en dernier**.
+
+## Emplacement
+
+- Le dossier de travail **contient** la boutique (boutique dans un sous-dossier, ex. `shop/`) → `PRESTASHOP.md` dans ce dossier de travail, **pas** dans la boutique.
+- La boutique est elle-même la racine du projet (dépôt = racine web) → à sa racine, mais il est alors lisible par tous (`https://boutique/PRESTASHOP.md`) : le signaler à l'utilisateur et proposer de bloquer `*.md` dans la config du serveur (`.htaccess` / nginx). Raison de plus pour n'y mettre aucun secret.
+- Module isolé → racine du module.
 
 ## Règles
 

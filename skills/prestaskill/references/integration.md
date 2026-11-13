@@ -50,7 +50,8 @@ Lister ce qui se répète d'une maquette à l'autre et le traiter une fois, dans
 
 - Changer l'emplacement d'un module : BO > Apparence > Positions (greffer, déplacer, exceptions par page), pas de copie de son HTML dans le tpl.
 - Appeler un module à un endroit précis du tpl : `{widget name='ps_shoppingcart'}` (module qui implémente `WidgetInterface`, 1.7+), ou un hook `{hook h='displayNav2'}`. Le widget accepte `hook='displayNav2'` pour reproduire le rendu de ce hook.
-- Thème distribué : greffes du thème déclarées dans `config/theme.yml` (`global_settings.hooks.modules_to_hook`), appliquées à l'installation du thème. Les lire dans le parent avant d'en ajouter.
+- Thème distribué : greffes du thème déclarées dans `config/theme.yml` (`global_settings.hooks.modules_to_hook`), appliquées à l'installation du thème. Les lire dans le parent avant d'en ajouter. Piège : un module cité dans `modules_to_hook` est **décroché de tous ses autres hooks display** non cités (`HookConfigurator::getThemeHooksConfiguration`) → lister chaque hook display utile du module, pas seulement le nouveau.
+- Contenu HTML saisi en BO (pages CMS, `ps_customtext`…) : filtré par HTMLPurifier si `PS_USE_HTMLPURIFIER` = 1 (`<section>`, `<details>`, `<input>`, `data-*`… supprimés à l'enregistrement). Y garder un balisage simple (`div`, `p`, `h2`, `ul`, classes) et ajouter le comportement en JS dans le thème ; prévenir l'utilisateur que l'éditeur du BO peut abîmer la mise en page.
 
 ### JS après un rechargement AJAX
 
@@ -120,6 +121,7 @@ Après chaque étape : vider le cache, vérifier mobile et desktop.
 ## Vérification avant de rendre la main
 
 - Pages et éléments légaux listés à l'utilisateur, ceux qui existent intégrés.
+- Chaque page maquettée comparée **côte à côte** à sa maquette (captures à la même largeur, desktop et mobile) : écarts listés à l'utilisateur, corrigés ou justifiés. Une page « jolie » n'est pas une page conforme.
 - Toutes les pages du § 1 affichées sans erreur, y compris celles sans maquette (elles doivent rester cohérentes avec le nouveau style).
 - Aucun fichier copié du parent sans modification.
 - `PRESTASHOP.md` : section Intégration et liste des tpl surchargés à jour.
