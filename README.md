@@ -84,7 +84,7 @@ Dans Claude Code :
 
 ```
 /plugin marketplace add Samuel871933/Prestaskill
-/plugin install prestashop@prestaskill
+/plugin install prestaskill@prestaskill
 ```
 
 Le plugin installe le skill **et** deux hooks, actifs seulement dans un projet PrestaShop (présence de `PRESTASHOP.md`, `classes/ObjectModel.php`, `app/AppKernel.php` ou `config/settings.inc.php`) :
