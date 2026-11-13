@@ -87,7 +87,36 @@ class AbcFaq extends Module
 
 Adapter : `$this->l()` au lieu de `trans()` avant 1.7.6 (et retirer `isUsingNewTranslationSystem`) ; `array()` si PHP 5.3.
 
-Onglets admin, hooks custom, front controllers, emails, commandes console, webservice : [module-types.md](module-types.md).
+## ObjectModel — squelette
+
+```php
+// classes/AbcFaqItem.php (require_once dans la classe principale, ou autoload composer)
+class AbcFaqItem extends ObjectModel
+{
+    public $id_product;
+    public $active = 1;
+    public $date_add;
+    public $question; // traduisible : tableau [id_lang => valeur]
+
+    public static $definition = [
+        'table' => 'abc_faq',            // sans _DB_PREFIX_
+        'primary' => 'id_abc_faq',
+        'multilang' => true,             // table abc_faq_lang (id_abc_faq, id_lang, question)
+        'fields' => [
+            'id_product' => ['type' => self::TYPE_INT, 'validate' => 'isUnsignedId', 'required' => true],
+            'active' => ['type' => self::TYPE_BOOL, 'validate' => 'isBool'],
+            'date_add' => ['type' => self::TYPE_DATE, 'validate' => 'isDate'],
+            'question' => ['type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isGenericName', 'required' => true, 'size' => 255],
+        ],
+    ];
+}
+```
+
+- Les tables ne sont pas créées par l'ObjectModel : `installDb()` les crée (`ENGINE=_MYSQL_ENGINE_`, `CHARSET=utf8mb4`), `uninstallDb()` les supprime.
+- `date_add` / `date_upd` sont remplis automatiquement s'ils sont déclarés. Contenu HTML : `TYPE_HTML` + `isCleanHtml`.
+- Par boutique : `Shop::addTableAssociation('abc_faq', ['type' => 'shop'])` dans le constructeur + table `abc_faq_shop` ; traduction par boutique : `'multilang_shop' => true`.
+
+Onglets admin, hooks custom, champs du formulaire client, front controllers, emails, commandes console, webservice : [module-types.md](module-types.md).
 
 ## Règles
 

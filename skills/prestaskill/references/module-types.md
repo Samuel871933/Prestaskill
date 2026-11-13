@@ -27,7 +27,7 @@ Seule leur **intégration** est couverte : rendu des étapes livraison / paiemen
 
 ## Hook custom
 
-- Le déclarer à l'installation s'il n'existe pas, puis l'appeler :
+- `registerHook()` crée déjà le hook s'il n'existe pas. `createHook` ne sert que pour un hook que le module **appelle** sans s'y greffer lui-même (pour qu'il apparaisse dans Apparence > Positions) :
 
   ```php
   // install()
@@ -43,6 +43,16 @@ Seule leur **intégration** est couverte : rendu des étapes livraison / paiemen
   ```
 - Appel : `Hook::exec('actionAbcFaqSaved', ['item' => $item])` en PHP ; `{hook h='displayAbcFaqAfterList' product=$product}` en tpl.
 - À la désinstallation, ne supprimer le hook que si aucun autre module ne s'y est greffé.
+
+## Champs du formulaire client (front, 1.7+)
+
+Grep les noms dans `classes/form/` avant de s'en servir *(à vérifier selon la mineure)*.
+
+- Ajouter : `hookAdditionalCustomerFormFields($params)` retourne un tableau de `FormField` (`(new FormField())->setName('abc_siret')->setType('text')->setLabel(…)->setValue(<valeur enregistrée si client connecté>)`).
+- Valider : `hookValidateCustomerFormFields($params)` reçoit les champs du module dans `$params['fields']` ; `$field->addError(…)` sur un champ invalide, puis retourner les champs.
+- Enregistrer : `actionCustomerAccountAdd` (inscription, `$params['newCustomer']`) et `actionCustomerAccountUpdate` (page identité, `$params['customer']`), valeur lue par `Tools::getValue('abc_siret')`. Stocker dans une table du module liée à `id_customer`, pas en colonne ajoutée à `customer`.
+- Adresse : `additionalCustomerAddressFields` (même principe) ; BO : `actionCustomerFormBuilderModifier` (1.7.6+).
+- 1.6 : `displayCustomerAccountForm` (affichage) + `actionCustomerAccountAdd`, ou surcharge de `authentication.tpl`.
 
 ## Front controller de module
 

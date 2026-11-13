@@ -51,13 +51,11 @@ Si une tâche l'exige, **demande d'abord** en expliquant pourquoi. Ne recopie ja
 4. **Rien en dur.** IDs (catégories, CMS, transporteurs…), emails, montants, textes → clés `Configuration` éditables dans la page de configuration du module, et chaînes traduisibles.
 5. **Performance.** Pas de requête SQL dans une boucle ; attention aux hooks appelés sur chaque page (`displayHeader`, `actionFrontControllerSetMedia`, `actionDispatcher`) : y faire le minimum et charger les assets seulement sur les pages concernées ; mettre en cache ce qui est coûteux (`Cache::store`, `isCached()` Smarty).
 6. **Pas de dépendance inutile.** Composer seulement si nécessaire ; alors `vendor/` livré avec le module et `"prepend-autoloader": false`.
-7. **Respecter le style du projet** (conventions existantes des modules du projet, sinon standards PrestaShop).
 
 ## Règles non négociables (toutes versions)
 
 1. **Ne jamais modifier le core** (`classes/`, `controllers/`, `src/`, `vendor/`, `admin*/`, ni le thème parent). Tout passe par module, override, ou thème enfant.
 2. **Ordre de préférence pour changer un comportement** : hook existant → service Symfony / décoration (1.7.5+ selon zone) → surcharge de template dans le thème → override de classe/controller **en dernier recours**. Justifie tout override.
-   - Nouvelle fonctionnalité → **module dédié** ; impossible par hook/service → override.
    - Modifier un module existant (natif ou acheté) → jamais dans son dossier : PHP dans `/override/modules/<module>/…`, tpl/CSS/JS dans le **thème actif** (`themes/<actif>/modules/<module>/…`).
    - Override PHP → toujours dans `/override/` à la racine (arborescence et nommage : `references/overrides.md`).
 3. **Sécurité** : appliquer `references/security.md` en écrivant le code, puis repasser la checklist avant de rendre la main.

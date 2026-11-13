@@ -21,7 +21,7 @@ La plupart des failles publiées sur des modules PrestaShop sont des injections 
 - `vendor/` et dossiers internes du module : `index.php` dans chaque dossier + `.htaccess` `Deny from all` / `Require all denied` sur `vendor/`.
 
 ## 4. CSRF et autorisations
-- Admin legacy (`ModuleAdminController`) : token vérifié par le core — ne pas le désactiver ; vérifier les droits (`$this->access('edit')`) avant toute action qui modifie.
+- Admin legacy (`ModuleAdminController`) : token vérifié par le core — ne pas le désactiver ; vérifier les droits (1.7+ : `$this->access('edit')` ; 1.6 : `$this->tabAccess['edit'] === '1'`) avant toute action qui modifie.
 - Admin Symfony : formulaires avec CSRF (par défaut) ; protéger chaque action avec `AdminSecurity` (1.7 / 8 : annotation `@AdminSecurity("is_granted('read', request.get('_legacy_controller'))")` ; 9 : attribut `#[AdminSecurity(…)]` de `PrestaShopBundle\Security\Attribute\AdminSecurity`).
 - Page de configuration du module (`getContent`) : valider chaque champ avant `Configuration::updateValue`.
 - Front, action qui modifie des données : vérifier le token (`Tools::getToken(false)`) et que le client est connecté si nécessaire.
