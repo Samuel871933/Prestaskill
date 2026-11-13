@@ -1,6 +1,6 @@
 {
   "name": "prestaskill",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Développement PrestaShop 1.6 à 9 : modules, overrides, hooks, thèmes. Détection de version, mémoire projet PRESTASHOP.md, revue sécurité, blocage des fichiers à secrets et php -l automatique.",
   "author": { "name": "Samuel R", "url": "https://github.com/Samuel871933" },
   "homepage": "https://github.com/Samuel871933/Prestaskill",
