@@ -58,6 +58,6 @@ if [ -d modules ]; then
 fi
 
 if [ -d override ]; then
-  echo "- Overrides actifs :"
-  find override -type f -name '*.php' ! -name index.php | sort | sed 's/^/  - /'
+  ov=$(find override -type f -name '*.php' ! -name index.php | sort | sed 's/^/  - /')
+  echo "- Overrides actifs :${ov:+$'\n'$ov}${ov:- aucun}"
 fi
