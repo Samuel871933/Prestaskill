@@ -8,6 +8,8 @@ allowed-tools: Bash(bash *scan.sh*)
 
 Tu travailles sur PrestaShop. Le comportement correct dépend **de la version** : une règle vraie en 1.6 peut être fausse en 9. Ne code jamais "de mémoire" sans avoir fait les étapes 1 à 3.
 
+`WebFetch`, `Read`, `grep` désignent les outils de ton agent (lecture d'une page web, d'un fichier, recherche). Sans accès web : demande la page à l'utilisateur.
+
 ## Étape 0 — Lire `PRESTASHOP.md` (mémoire du projet)
 
 S'il existe à la racine du projet, lis-le **avant tout** et fais-lui confiance : version, préfixes, thème, modules du projet, overrides, décisions. N'explore le code que pour ce qu'il ne dit pas. S'il manque, crée-le dès que la tâche modifie le projet (pas pour une simple question). À la fin de chaque tâche qui change quelque chose, mets-le à jour. Format et règles : `references/project-file.md`.

@@ -2,13 +2,15 @@
 # Installe le skill prestaskill pour Claude Code.
 #   ./install.sh                 -> pour l'utilisateur (~/.claude/skills/prestaskill), tous projets
 #   ./install.sh --project DIR   -> pour un seul projet (DIR/.claude/skills/prestaskill)
+#   ./install.sh --dest DIR      -> dans le dossier de skills d'un autre agent (DIR/prestaskill)
 set -euo pipefail
 
 src="$(cd "$(dirname "$0")" && pwd)/skills/prestaskill"
 case "${1:-}" in
   --project) dest="${2:?Usage: $0 --project <dossier_projet>}/.claude/skills/prestaskill" ;;
+  --dest)    dest="${2:?Usage: $0 --dest <dossier_skills>}/prestaskill" ;;
   "")        dest="$HOME/.claude/skills/prestaskill" ;;
-  *)         echo "Usage: $0 [--project <dossier_projet>]"; exit 1 ;;
+  *)         echo "Usage: $0 [--project <dossier_projet> | --dest <dossier_skills>]"; exit 1 ;;
 esac
 
 if [ -d "$dest" ]; then
@@ -22,4 +24,4 @@ mkdir -p "$(dirname "$dest")"
 cp -r "$src" "$dest"
 chmod +x "$dest/scripts/scan.sh"
 echo "Skill installé dans $dest"
-echo "Redémarrez Claude Code (ou ouvrez une nouvelle session) pour le charger."
+echo "Ouvrez une nouvelle session de l'agent pour le charger."

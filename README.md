@@ -118,6 +118,16 @@ Si un skill `prestaskill` existe déjà, `install.sh` le sauvegarde dans `.claud
 
 Ouvrez ensuite une nouvelle session Claude Code.
 
+### Autres agents (Codex, GitHub Copilot, Cursor…)
+
+Le skill suit le format ouvert [Agent Skills](https://agentskills.io) (`SKILL.md` + fichiers chargés à la demande) : tout agent qui le lit peut l'utiliser. Copiez-le dans le dossier de skills de votre agent (voir sa documentation) :
+
+```bash
+./install.sh --dest <dossier_skills_de_l_agent>
+```
+
+Hors Claude Code, les hooks ne sont pas installés : le blocage des fichiers sensibles ne repose plus que sur les consignes du skill, et `php -l` est lancé par l'agent lors de la vérification finale. Voir aussi [Renforcer la protection des données sensibles](#renforcer-la-protection-des-données-sensibles).
+
 ## Utilisation
 
 Le skill se déclenche tout seul quand vous travaillez dans un projet PrestaShop ou que vous parlez de module, hook, override ou thème PrestaShop. Vous pouvez aussi l'appeler explicitement avec `/prestaskill` (`/prestaskill:prestaskill` en plugin).
