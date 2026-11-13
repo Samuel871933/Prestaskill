@@ -69,7 +69,7 @@ But : recompiler le SCSS **du parent** avec les variables de l'enfant, pour prod
 
 1. Sources du parent :
    - Classic : `_dev/css/theme.scss`, variables dans `_dev/css/partials/_variables.scss`, build webpack (`_dev/package.json`, sortie `../assets/css/theme.css` et `../assets/js/theme.js`), Bootstrap 4.0.0-alpha.5.
-   - Hummingbird : `src/scss/theme.scss`, variables dans `src/scss/abstract/variables/` et `src/scss/bootstrap/overrides/variables/`, build webpack (`webpack/`), Bootstrap 5.3, Node 20 (`.nvmrc`).
+   - Hummingbird : `src/scss/theme.scss`, variables dans `src/scss/abstract/variables/` et `src/scss/bootstrap/overrides/variables/`, build webpack (`webpack.config.js` + `webpack/`), Bootstrap 5.3, version de Node dans `.nvmrc` du parent (24 pour Hummingbird 2.1). Hummingbird 2.x range ses styles dans des `@layer` CSS : `custom.css`, hors couche, passe devant sans surenchère de spécificité.
    - Thème du commerce : chercher `package.json` et le `.scss` d'entrée ; s'il n'y a pas de sources, seule l'option CSS simple est possible.
 2. Dans l'enfant, `_dev/` contient la chaîne de build : reprendre le `package.json` et la config webpack du parent (mêmes versions, sortie vers `../assets/`), plutôt qu'inventer une autre chaîne.
 3. Point d'entrée `_dev/css/theme.scss` de l'enfant :
@@ -110,7 +110,7 @@ assets:
 
 ### 1.6
 
-Pas d'enfant ni de `theme.yml`. Le core charge `css/global.css`, `js/global.js`, puis **tout fichier** de `css/autoload/*.css` et `js/autoload/*.js` du thème : y mettre les ajouts, sans enregistrement. CSS par page : fichiers du thème chargés par chaque controller (ex. `css/product.css`). SCSS : default-bootstrap a des sources dans `sass/` *(à vérifier : outil de build)*.
+Pas d'enfant ni de `theme.yml`. Le core charge `css/global.css`, `js/global.js`, puis **tout fichier** de `css/autoload/*.css` et `js/autoload/*.js` du thème : y mettre les ajouts, sans enregistrement. CSS par page : fichiers du thème chargés par chaque controller (ex. `css/product.css`). SCSS : default-bootstrap a des sources dans `sass/`, compilées avec Compass (`config.rb` à la racine du thème : `compass compile`).
 
 ## Surcharger les templates / assets d'un module depuis le thème
 
@@ -119,7 +119,7 @@ Toujours dans le **thème actif** noté dans `PRESTASHOP.md` (ou donné par l'ut
 | Version | Templates | CSS / JS |
 |---|---|---|
 | 1.6 | `themes/<theme>/modules/<module>/<fichier>.tpl` | `themes/<theme>/css/modules/<module>/…`, `themes/<theme>/js/modules/<module>/…` |
-| 1.7 / 8 / 9 | `themes/<theme>/modules/<module>/<même chemin que dans le module>` (ex. `views/templates/hook/x.tpl`) | `themes/<theme>/modules/<module>/<même chemin que dans le module>` *(à vérifier)* |
+| 1.7 / 8 / 9 | `themes/<theme>/modules/<module>/<même chemin que dans le module>` (ex. `views/templates/hook/x.tpl`) | `themes/<theme>/modules/<module>/<même chemin que dans le module>` (ex. `views/css/front.css`) : le core cherche le chemin relatif enregistré par le module dans le thème, puis le parent, puis la racine. Ne marche que pour les assets enregistrés en chemin relatif (`registerStylesheet`), pas pour une URL absolue ou `server: remote`. |
 
 - Un fichier d'asset de surcharge **vide** supprime l'asset du module (ni l'original ni la surcharge ne sont chargés).
 - Un tpl surchargé qui fait `{include file='./x.tpl'}` oblige à surcharger aussi `x.tpl` ; dans ses propres modules, écrire `{include file='module:<module>/views/templates/…'}` (1.7+).

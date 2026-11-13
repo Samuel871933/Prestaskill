@@ -22,7 +22,7 @@ La plupart des failles publiées sur des modules PrestaShop sont des injections 
 
 ## 4. CSRF et autorisations
 - Admin legacy (`ModuleAdminController`) : token vérifié par le core — ne pas le désactiver ; vérifier les droits (`$this->access('edit')`) avant toute action qui modifie.
-- Admin Symfony : formulaires avec CSRF (par défaut) ; protéger chaque action avec `AdminSecurity` (annotation 1.7/8, attribut en 9 — *à vérifier*).
+- Admin Symfony : formulaires avec CSRF (par défaut) ; protéger chaque action avec `AdminSecurity` (1.7 / 8 : annotation `@AdminSecurity("is_granted('read', request.get('_legacy_controller'))")` ; 9 : attribut `#[AdminSecurity(…)]` de `PrestaShopBundle\Security\Attribute\AdminSecurity`).
 - Page de configuration du module (`getContent`) : valider chaque champ avant `Configuration::updateValue`.
 - Front, action qui modifie des données : vérifier le token (`Tools::getToken(false)`) et que le client est connecté si nécessaire.
 - AJAX côté BO : vérifier l'employé connecté (`$this->context->employee`) et ses droits, pas seulement le token.

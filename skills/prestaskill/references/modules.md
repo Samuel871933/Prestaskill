@@ -76,10 +76,18 @@ class AbcFaq extends Module
             && Configuration::deleteByName('ABC_FAQ_NB_ITEMS')
             && parent::uninstall();
     }
+
+    // 1.7.6+ : sans ça, les chaînes trans() du module n'apparaissent pas dans l'interface de traduction du BO
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
 }
 ```
 
-Adapter : `$this->l()` au lieu de `trans()` avant 1.7.6 ; `array()` si PHP 5.3.
+Adapter : `$this->l()` au lieu de `trans()` avant 1.7.6 (et retirer `isUsingNewTranslationSystem`) ; `array()` si PHP 5.3.
+
+Onglets admin, hooks custom, front controllers, emails, commandes console, webservice : [module-types.md](module-types.md).
 
 ## Règles
 
@@ -90,6 +98,8 @@ Adapter : `$this->l()` au lieu de `trans()` avant 1.7.6 ; `array()` si PHP 5.3.
 - Données traduisibles → table `_lang` + `ObjectModel::$definition['multilang' => true]`. Par boutique → `_shop` + `Shop::addTableAssociation`.
 - Formulaires de configuration : `HelperForm` (toutes versions) ou Symfony Form + `config/services.yml` (1.7.6+/8/9 — préférer ça en 8/9).
 - Listes admin : `HelperList` (legacy) ou Grid Symfony (1.7.6+/8/9 — préférer en 8/9).
+- Assets BO : hook `actionAdminControllerSetMedia` (toutes versions, 1.6.1 compris ; pages Symfony en 8+ via `LegacyControllerBridge`, grep si doute), `$this->context->controller->addCSS()` / `addJS()`, et seulement sur les pages du module (ex. `Tools::getValue('configure') === $this->name` ou le controller du module), pas sur tout le BO.
+- Fiche produit BO : voir le fichier de la version (8 / 9), les hooks dépendent de la page produit utilisée.
 
 ## Doc à WebFetch selon le besoin (remplacer `<v>` par 1.7, 8 ou 9)
 

@@ -3,6 +3,8 @@
 ## Avant d'écrire un override, répondre à ces questions
 
 1. Un **hook** permet-il de le faire ? (grep le core autour de la ligne à modifier : y a-t-il un `Hook::exec` ?)
+   - Réagir à la création / modification / suppression d'un objet (produit, client, commande, adresse…) : hooks génériques d'`ObjectModel`, appelés pour **toute** classe : `actionObject<Classe>AddBefore|AddAfter|UpdateBefore|UpdateAfter|DeleteBefore|DeleteAfter` (ex. `actionObjectProductUpdateAfter`, paramètre `object`) et `…DuplicateAfter` (paramètres `oldObject`, `newObject`), ou `actionObjectAddAfter`… pour toutes les classes. Non déclenchés par un SQL direct (`Db::update`) : grep `actionObject` dans `classes/ObjectModel.php` pour la liste exacte de la version.
+   - Événements métier courants : `actionValidateOrder`, `actionOrderStatusPostUpdate`, `actionCartSave`, `actionCustomerAccountAdd`, `actionAuthentication`.
 2. Un **service Symfony** décorable ? (1.7.5+ côté BO ; `config/services.yml` du module avec `decorates:`)
 3. Est-ce un problème d'**affichage** ? → surcharge de template dans le thème actif (voir themes.md) ou de Twig BO (ci-dessous), pas d'override PHP.
 4. Sinon seulement : override. Le dire à l'utilisateur, avec la raison, et le noter dans `PRESTASHOP.md`.

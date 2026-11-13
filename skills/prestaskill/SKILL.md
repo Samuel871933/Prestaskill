@@ -10,7 +10,7 @@ Tu travailles sur PrestaShop. Le comportement correct dépend **de la version** 
 
 ## Étape 0 — Lire `PRESTASHOP.md` (mémoire du projet)
 
-S'il existe à la racine du projet, lis-le **avant tout** et fais-lui confiance : version, préfixes, thème, modules du projet, overrides, décisions. N'explore le code que pour ce qu'il ne dit pas. S'il manque, crée-le. À la fin de chaque tâche qui change quelque chose, mets-le à jour. Format et règles : `references/project-file.md`.
+S'il existe à la racine du projet, lis-le **avant tout** et fais-lui confiance : version, préfixes, thème, modules du projet, overrides, décisions. N'explore le code que pour ce qu'il ne dit pas. S'il manque, crée-le dès que la tâche modifie le projet (pas pour une simple question). À la fin de chaque tâche qui change quelque chose, mets-le à jour. Format et règles : `references/project-file.md`.
 
 Si `PRESTASHOP.md` donne déjà la version et la config, saute les étapes 1 et 2.
 
@@ -31,11 +31,13 @@ Ordre de confiance, du plus fiable au moins fiable :
 1. **Le code du core installé** (`classes/`, `controllers/`, `src/`, `themes/<parent>/`). Avant d'appeler, surcharger ou hooker quelque chose, `grep` pour confirmer que la méthode/le hook existe *dans cette version* et lis sa signature. Ex : `grep -rn "Hook::exec('displayProductAdditionalInfo'" classes controllers src`.
 2. **La doc officielle de la version** : `https://devdocs.prestashop-project.org/<1.7|8|9>/` (1.6 : `https://doc.prestashop.com/display/PS16/Developer+Guide`). Fais un WebFetch de la page pertinente quand la tâche touche un point marqué *(à vérifier)*, ou dès que tu as un doute — sauf si `PRESTASHOP.md` contient déjà la réponse. Une fois vérifié, note le résultat en une ligne dans `PRESTASHOP.md` (« Décisions / pièges ») pour ne pas refaire la recherche.
 3. **Modules officiels comme modèles** : les modules natifs présents dans `modules/` (ps_*), et `https://github.com/PrestaShop/example-modules`.
-4. Ta mémoire — en dernier, et signale à l'utilisateur ce que tu n'as pas vérifié.
+4. Ce skill, puis ta mémoire — en dernier, et signale à l'utilisateur ce que tu n'as pas vérifié.
+
+**Ce skill n'est pas la vérité absolue.** Il a été relevé à une date donnée (2026-11, jusqu'à PrestaShop 9.2) ; PrestaShop évolue. Si le core installé ou la doc officielle le contredit, ils ont raison : suis-les et note l'écart dans `PRESTASHOP.md` (« Décisions / pièges »). Version plus récente que celles couvertes ici → traite le skill comme une piste et vérifie chaque point. **Si quelque chose ne fonctionne pas** (hook jamais appelé, chemin de tpl ignoré, asset non chargé…), ne réessaie pas la même chose : vide le cache, puis vérifie dans le core (grep de l'appel, lecture de la méthode) et en conditions réelles (mode debug, logs que l'utilisateur te montre, rendu front/BO) avant de conclure.
 
 ## Données sensibles — interdit de lire
 
-Jamais (ni Read, ni cat, ni grep) : `app/config/parameters.{php,yml}`, `config/settings.inc.php`, `.env*`, dumps `*.sql*` et `backups/`, `var/logs/`, `log/`, `download/`, `upload/`, `.htpasswd`, fichiers de credentials des modules. Le préfixe des tables s'obtient par `scan.sh`. Installé en plugin, un hook bloque déjà les premiers.
+Jamais (ni Read, ni cat, ni grep) : `app/config/parameters.{php,yml}`, `config/settings.inc.php`, `.env*`, dumps `*.sql*` et `backups/`, `var/logs/`, `log/`, `download/`, `upload/`, `.htpasswd`, fichiers de credentials des modules. Le préfixe des tables s'obtient par `scan.sh`. Installé en plugin, un hook bloque déjà tous ces chemins sauf `download/`, `upload/` et les credentials des modules.
 
 BDD : jamais `SELECT *` sur `customer`, `address`, `orders`, `employee`, `connections`, `guest`, `configuration` ; colonnes précises non personnelles + `LIMIT` ; clients de test factices.
 
@@ -69,9 +71,10 @@ Si une tâche l'exige, **demande d'abord** en expliquant pourquoi. Ne recopie ja
 | Tâche | Fichier |
 |---|---|
 | Créer / modifier un module, hooks, config, BDD, controllers | [references/modules.md](references/modules.md) |
+| Onglets admin, hook custom, front controller, emails, commande console, webservice, qualité · paiement / transporteur (hors périmètre) | [references/module-types.md](references/module-types.md) |
 | Override de classe, controller ou module | [references/overrides.md](references/overrides.md) |
 | Thème, thème enfant, templates, assets, surcharge de tpl de module | [references/themes.md](references/themes.md) |
-| Intégrer des maquettes (pages, composants communs, CSS du parent) | [references/integration.md](references/integration.md) |
+| Intégrer des maquettes (pages, composants communs, positions des modules, JS après AJAX, CSS du parent, tunnel, emails, PDF) | [references/integration.md](references/integration.md) |
 | Paramétrer un module installé (menu, liens, blocs, textes) sans le BO | [references/module-config.md](references/module-config.md) |
 | Différences et pièges de la version | `references/versions/<version>.md` |
 | Compatibilité PHP, bug lié à la version de PHP | `references/versions/php.md` |
@@ -83,7 +86,7 @@ Si une tâche l'exige, **demande d'abord** en expliquant pourquoi. Ne recopie ja
 - **Revue sécurité** : relire tout le code ajouté ou modifié avec la checklist de [references/security.md](references/security.md) et corriger. Dans la réponse finale, ne détailler que les points corrigés ou à risque, puis une ligne « Autres points : OK / non applicable ».
 - `php -l` sur chaque fichier PHP modifié (automatique si le skill est installé en plugin : une erreur s'affiche d'elle-même).
 - `PRESTASHOP.md` mis à jour.
-- Si une boutique est disponible : installer / réinstaller le module (`php bin/console prestashop:module install <nom>` en 1.7+, sinon BO) et vider le cache.
+- Si une boutique est disponible : installer / réinstaller le module (`php bin/console prestashop:module install <nom>` en 1.7+, sinon BO), vider le cache, puis **tester réellement** ce qui a été fait (page front ou BO concernée, action déclenchée, désinstallation propre). Écrit ≠ fonctionnel.
 - Dire explicitement ce qui n'a pas pu être testé (pas de boutique, pas de BDD, etc.).
 
 ## Déléguer à un sous-agent

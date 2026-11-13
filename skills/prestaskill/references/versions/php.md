@@ -13,6 +13,7 @@ Source : devdocs `…/<1.7|8|9>/basics/installation/system-requirements/` (relev
 | 8.0 → 8.2 | 7.2 → 8.1 | 8.1 |
 | 9.0 | 8.1 → 8.4 | 8.4 |
 | 9.1 | 8.1 → 8.5 | 8.5 |
+| 9.2 | 8.1 min (composer.json) ; max absent de devdocs au 2026-11 → WebFetch | — |
 
 ## Écrire pour le PHP minimum de la plage cible
 

@@ -170,9 +170,10 @@ prestaskill/
     └── references/               # chargés seulement quand la tâche le demande
         ├── versions/             # un fichier par version : 1.6, 1.7, 8, 9 + php.md (compatibilité PHP)
         ├── modules.md            # préfixes, structure, squelette, hooks
+        ├── module-types.md       # onglets, hooks custom, front controllers, emails, console, webservice (paiement/transport : hors périmètre)
         ├── overrides.md          # quand et comment overrider (/override/, modules, Twig BO)
         ├── themes.md             # héritage, surcharges de templates
-        ├── integration.md        # maquettes → pages, composants communs, réutilisation du CSS parent
+        ├── integration.md        # maquettes → pages, composants communs, CSS parent, tunnel, emails, PDF
         ├── module-config.md      # paramétrer un module installé par script CLI (simulation, sauvegarde)
         ├── security.md           # checklist de sécurité
         └── project-file.md       # format de PRESTASHOP.md
