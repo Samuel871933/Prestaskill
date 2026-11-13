@@ -65,7 +65,7 @@ grep -rhoE 'class="[^"]*"' themes/<parent>/templates | sed 's/^class="//; s/"$//
 
 ## 4. Ordre de travail
 
-1. Inventaire (§ 1 et 2) validé par l'utilisateur, noté dans `PRESTASHOP.md` § Intégration.
+1. Inventaire (§ 1 et 2) validé par l'utilisateur, noté dans `PRESTASHOP.md` § Intégration. Demander aussi : **intégration seule, ou aussi paramétrage des modules** (liens du menu, blocs du footer, textes…) ? Si oui : [module-config.md](module-config.md).
 2. Thème enfant, choix SCSS ou CSS demandé à l'utilisateur, chaîne de build si SCSS (themes.md). Variables, polices, icônes.
 3. Composants communs.
 4. Pages, une par une : `{extends file='parent:…'}` et seulement les `{block}` qui changent.

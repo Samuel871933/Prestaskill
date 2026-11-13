@@ -47,6 +47,7 @@ Relancer le scan (pas d'exploration manuelle) quand la version, le thème ou les
 - Styles : SCSS (build _dev/ de l'enfant) · Framework parent : Bootstrap 4 · Variables surchargées : _dev/css/_variables.scss
 - Composants : bouton principal = .btn.btn-primary · carte = .card · miniature = catalog/_partials/miniatures/product.tpl
 - Pages faites : accueil, catégorie, produit · Restantes : tunnel, compte client
+- Paramétrage des modules par Claude : oui (local uniquement) · Fait : ps_mainmenu (liens), ps_linklist (footer) le AAAA-MM-JJ
 
 ## Décisions / pièges
 - Vérifié AAAA-MM-JJ : hook actionProductFormBuilderModifier appelé en 8.1 (grep src/).

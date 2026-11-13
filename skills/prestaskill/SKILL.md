@@ -72,6 +72,7 @@ Si une tâche l'exige, **demande d'abord** en expliquant pourquoi. Ne recopie ja
 | Override de classe, controller ou module | [references/overrides.md](references/overrides.md) |
 | Thème, thème enfant, templates, assets, surcharge de tpl de module | [references/themes.md](references/themes.md) |
 | Intégrer des maquettes (pages, composants communs, CSS du parent) | [references/integration.md](references/integration.md) |
+| Paramétrer un module installé (menu, liens, blocs, textes) sans le BO | [references/module-config.md](references/module-config.md) |
 | Différences et pièges de la version | `references/versions/<version>.md` |
 | Compatibilité PHP, bug lié à la version de PHP | `references/versions/php.md` |
 | Tout développement (checklist de fin) | [references/security.md](references/security.md) |

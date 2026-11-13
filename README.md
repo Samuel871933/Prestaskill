@@ -173,6 +173,7 @@ prestaskill/
         ├── overrides.md          # quand et comment overrider (/override/, modules, Twig BO)
         ├── themes.md             # héritage, surcharges de templates
         ├── integration.md        # maquettes → pages, composants communs, réutilisation du CSS parent
+        ├── module-config.md      # paramétrer un module installé par script CLI (simulation, sauvegarde)
         ├── security.md           # checklist de sécurité
         └── project-file.md       # format de PRESTASHOP.md
 ```
