@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "prestaskill",
+  "description": "Skill PrestaShop pour Claude Code.",
+  "owner": { "name": "Samuel R", "url": "https://github.com/Samuel871933" },
+  "plugins": [
+    {
+      "name": "prestashop",
+      "description": "Développement PrestaShop 1.6 à 9 : modules, overrides, hooks, thèmes.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}
