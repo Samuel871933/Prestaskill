@@ -43,6 +43,11 @@ Relancer le scan (pas d'exploration manuelle) quand la version, le thème ou les
 ## Thème (montheme)
 - Surchargés : catalog/product.tpl (blocs product_prices, product_add_to_cart), modules/ps_shoppingcart/…
 
+## Intégration
+- Styles : SCSS (build _dev/ de l'enfant) · Framework parent : Bootstrap 4 · Variables surchargées : _dev/css/_variables.scss
+- Composants : bouton principal = .btn.btn-primary · carte = .card · miniature = catalog/_partials/miniatures/product.tpl
+- Pages faites : accueil, catégorie, produit · Restantes : tunnel, compte client
+
 ## Décisions / pièges
 - Vérifié AAAA-MM-JJ : hook actionProductFormBuilderModifier appelé en 8.1 (grep src/).
 - AAAA-MM-JJ : override Cart::getOrderTotal plutôt que hook car aucun hook avant le calcul des règles panier.

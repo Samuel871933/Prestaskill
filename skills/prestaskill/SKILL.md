@@ -1,6 +1,6 @@
 ---
 name: prestaskill
-description: Développement PrestaShop 1.6 à 9 — modules, overrides, hooks, thèmes (enfants, Classic, Hummingbird, du commerce), templates Smarty/Twig, controllers. Utilise-le pour toute tâche sur un projet PrestaShop (classes/ObjectModel.php, app/AppKernel.php, config/settings.inc.php) ou quand l'utilisateur parle de PrestaShop, module PS, override, hook, thème PS ou tpl Smarty.
+description: Développement PrestaShop 1.6 à 9 — modules, overrides, hooks, thèmes (enfants, Classic, Hummingbird, du commerce), templates Smarty/Twig, controllers, intégration de maquettes. Utilise-le pour toute tâche sur un projet PrestaShop (classes/ObjectModel.php, app/AppKernel.php, config/settings.inc.php) ou quand l'utilisateur parle de PrestaShop, module PS, override, hook, thème PS, tpl Smarty, ou d'intégrer des maquettes dans PrestaShop.
 allowed-tools: Bash(bash *scan.sh*)
 ---
 
@@ -71,6 +71,7 @@ Si une tâche l'exige, **demande d'abord** en expliquant pourquoi. Ne recopie ja
 | Créer / modifier un module, hooks, config, BDD, controllers | [references/modules.md](references/modules.md) |
 | Override de classe, controller ou module | [references/overrides.md](references/overrides.md) |
 | Thème, thème enfant, templates, assets, surcharge de tpl de module | [references/themes.md](references/themes.md) |
+| Intégrer des maquettes (pages, composants communs, CSS du parent) | [references/integration.md](references/integration.md) |
 | Différences et pièges de la version | `references/versions/<version>.md` |
 | Compatibilité PHP, bug lié à la version de PHP | `references/versions/php.md` |
 | Tout développement (checklist de fin) | [references/security.md](references/security.md) |
