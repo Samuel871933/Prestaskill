@@ -6,7 +6,7 @@ Le format des maquettes n'est pas notre sujet : partir de ce que l'utilisateur f
 
 ## 1. Inventaire : maquettes → pages PrestaShop
 
-Les pages front sont fixes (un controller = un template). Associer chaque maquette à sa ligne, puis **signaler les pages sans maquette** (souvent : compte client, tunnel, 404, recherche vide) et les maquettes sans page native (→ page CMS, ou controller front de module).
+Les pages front sont fixes (un controller = un template). Associer chaque maquette à sa ligne, puis **signaler les pages sans maquette** (souvent : compte client, tunnel, 404, recherche vide, pages légales ci-dessous) et les maquettes sans page native (→ page CMS, ou controller front de module).
 
 | Page | Controller | Template 1.7+ (1.6 : à la racine du thème) |
 |---|---|---|
@@ -22,6 +22,19 @@ Les pages front sont fixes (un controller = un template). Associer chaque maquet
 | Connexion, inscription, mot de passe | authentication, registration, password | `customer/authentication.tpl`, `customer/registration.tpl`, `customer/password-*.tpl` |
 | Compte client (+ sous-pages) | my-account, identity, addresses, history, order-detail… | `customer/*.tpl` |
 | Erreurs, maintenance | pagenotfound, maintenance | `errors/404.tpl`, `errors/maintenance.tpl` |
+
+### Pages et éléments légaux
+
+Souvent absents des maquettes : **toujours les lister à l'utilisateur** en lui demandant lesquels existent. Le texte est fourni par le client (ou son juriste), jamais rédigé par l'agent ; l'intégration ne fait que la mise en page.
+
+| Élément | Où dans PrestaShop |
+|---|---|
+| CGV, mentions légales, politique de confidentialité, politique cookies, livraison, paiement sécurisé, droit de rétractation (+ formulaire type) | Pages CMS (`cms/page.tpl`) : une seule mise en page pour toutes ; vérifier lesquelles existent déjà en BO (certaines sont créées à l'installation) |
+| Case « J'accepte les CGV » au tunnel | Réglage BO des commandes (page CMS des conditions liée) ; texte dans `checkout/_partials/conditions-to-approve.tpl` *(à vérifier selon thème)* |
+| Liens légaux du footer | Modules de liens du footer (`ps_linklist` en 1.7+) : configuration en BO, pas en dur dans le tpl |
+| Consentements RGPD (formulaires contact, inscription, newsletter) | Module `psgdpr` *(à vérifier selon version)* |
+| Bandeau cookies / consentement | Pas de module natif : module tiers ou solution du client (CMP) → demander lequel, puis intégrer son style |
+| Informations de mentions (raison sociale, SIRET, hébergeur, médiateur) | Coordonnées boutique en BO + page CMS ; pas en dur dans le footer |
 
 Les chemins viennent de Classic : **les confirmer** par `ls themes/<parent>/templates/**` avant de s'en servir (Hummingbird et les thèmes du commerce diffèrent).
 
@@ -71,6 +84,7 @@ Après chaque étape : vider le cache, vérifier mobile et desktop.
 
 ## Vérification avant de rendre la main
 
+- Pages et éléments légaux listés à l'utilisateur, ceux qui existent intégrés.
 - Toutes les pages du § 1 affichées sans erreur, y compris celles sans maquette (elles doivent rester cohérentes avec le nouveau style).
 - Aucun fichier copié du parent sans modification.
 - `PRESTASHOP.md` : section Intégration et liste des tpl surchargés à jour.
