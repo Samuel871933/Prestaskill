@@ -9,5 +9,5 @@ printf '%s' "$vals" | grep -qE '"command" *: *"bash [^";&|`$]*scripts/scan\.sh[^
 hit=$(printf '%s\n' "$vals" | grep -oE 'app/config/parameters\.(php|yml)|config/settings\.inc\.php|(^|[/ "=])\.env[^ "]*|\.htpasswd|(^|[/ "])(admin[^/ "]*/)?backups?/')
 [ -z "$hit" ] && hit=$(printf '%s\n' "$vals" | grep -E '\.sql(\.gz|\.bz2|\.zip)?\b' | grep -vE 'modules/[^ "]*\.sql\b' | grep -oE '[^ "/]*\.sql[^ "]*')
 [ -z "$hit" ] && exit 0
-echo "Bloqué par le skill prestashop : $(echo "$hit" | head -1 | tr -d ' \"=') peut contenir des secrets ou des données clients. Pour le préfixe des tables, utiliser scripts/scan.sh ; sinon demander à l'utilisateur." >&2
+echo "Bloqué par le skill prestaskill : $(echo "$hit" | head -1 | tr -d ' \"=') peut contenir des secrets ou des données clients. Pour le préfixe des tables, utiliser scripts/scan.sh ; sinon demander à l'utilisateur." >&2
 exit 2

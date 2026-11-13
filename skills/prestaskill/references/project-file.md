@@ -22,7 +22,7 @@ Relancer le scan (pas d'exploration manuelle) quand la version, le thème ou les
 
 ```markdown
 # PRESTASHOP.md
-> Mémoire du projet pour Claude (skill prestashop). Mis à jour le AAAA-MM-JJ.
+> Mémoire du projet pour Claude (skill prestaskill). Mis à jour le AAAA-MM-JJ.
 
 ## Conventions
 - Préfixe modules : abc  · Namespace : MaSociete\Module\  · Auteur : Ma Société

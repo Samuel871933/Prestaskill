@@ -5,7 +5,7 @@
   "owner": { "name": "Samuel R", "url": "https://github.com/Samuel871933" },
   "plugins": [
     {
-      "name": "prestashop",
+      "name": "prestaskill",
       "description": "Développement PrestaShop 1.6 à 9 : modules, overrides, hooks, thèmes.",
       "source": "./",
       "category": "development"

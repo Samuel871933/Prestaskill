@@ -102,7 +102,7 @@ cd prestaskill
 ./install.sh
 ```
 
-Le skill est installé dans `~/.claude/skills/prestashop` et devient disponible dans tous vos projets.
+Le skill est installé dans `~/.claude/skills/prestaskill` et devient disponible dans tous vos projets.
 
 Pour l'installer dans un seul projet, par exemple pour le partager avec l'équipe via git :
 
@@ -110,17 +110,17 @@ Pour l'installer dans un seul projet, par exemple pour le partager avec l'équip
 ./install.sh --project /chemin/vers/ma-boutique
 ```
 
-Il est alors installé dans `/chemin/vers/ma-boutique/.claude/skills/prestashop`.
+Il est alors installé dans `/chemin/vers/ma-boutique/.claude/skills/prestaskill`.
 
-Vous pouvez aussi l'installer à la main en copiant `skills/prestashop/` dans `~/.claude/skills/`.
+Vous pouvez aussi l'installer à la main en copiant `skills/prestaskill/` dans `~/.claude/skills/`.
 
-Si un skill `prestashop` existe déjà, `install.sh` le sauvegarde dans `.claude/prestashop-skill.bak.<date>` avant de le remplacer.
+Si un skill `prestaskill` existe déjà, `install.sh` le sauvegarde dans `.claude/prestaskill.bak.<date>` avant de le remplacer.
 
 Ouvrez ensuite une nouvelle session Claude Code.
 
 ## Utilisation
 
-Le skill se déclenche tout seul quand vous travaillez dans un projet PrestaShop ou que vous parlez de module, hook, override ou thème PrestaShop. Vous pouvez aussi l'appeler explicitement avec `/prestashop` (`/prestashop:prestashop` en plugin).
+Le skill se déclenche tout seul quand vous travaillez dans un projet PrestaShop ou que vous parlez de module, hook, override ou thème PrestaShop. Vous pouvez aussi l'appeler explicitement avec `/prestaskill` (`/prestaskill:prestaskill` en plugin).
 
 Exemples :
 
@@ -164,7 +164,7 @@ prestaskill/
 ├── install.sh                    # installation sans plugin
 ├── README.md
 ├── LICENSE
-└── skills/prestashop/
+└── skills/prestaskill/
     ├── SKILL.md                  # point d'entrée : méthode, principes, règles
     ├── scripts/scan.sh           # relevé factuel du projet
     └── references/               # chargés seulement quand la tâche le demande

@@ -1,5 +1,5 @@
 ---
-name: prestashop
+name: prestaskill
 description: Développement PrestaShop 1.6 à 9 — modules, overrides, hooks, thèmes (enfants, Classic, Hummingbird, du commerce), templates Smarty/Twig, controllers. Utilise-le pour toute tâche sur un projet PrestaShop (classes/ObjectModel.php, app/AppKernel.php, config/settings.inc.php) ou quand l'utilisateur parle de PrestaShop, module PS, override, hook, thème PS ou tpl Smarty.
 allowed-tools: Bash(bash *scan.sh*)
 ---
