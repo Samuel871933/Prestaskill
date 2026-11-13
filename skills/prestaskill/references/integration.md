@@ -44,7 +44,23 @@ Lister ce qui se répète d'une maquette à l'autre et le traiter une fois, dans
 
 - header, footer, menu (souvent des modules : `ps_mainmenu`, `ps_shoppingcart`, `ps_searchbar`… → surcharge de leurs tpl dans le thème)
 - miniature produit : `catalog/_partials/miniatures/product.tpl` (sert à l'accueil, aux listings, à la recherche, aux produits associés)
-- fil d'Ariane, pagination, filtres (`ps_facetedsearch`), formulaires (`_partials/form-fields.tpl`), notifications, modale d'ajout au panier
+- fil d'Ariane, pagination, filtres (`ps_facetedsearch`), formulaires (`_partials/form-fields.tpl`)
+
+### États dynamiques (jamais dans les maquettes, toujours à faire)
+
+Les maquettes montrent des pages au repos. Lister et habiller aussi ce qui n'apparaît qu'après une action, dans le style de la maquette :
+
+| État | Où (1.7+ ; confirmer par `ls themes/<parent>/…`) |
+|---|---|
+| Modale d'ajout au panier | `modules/ps_shoppingcart/modal.tpl` du parent → surcharger dans l'enfant au même chemin |
+| Notifications (succès, erreur, info) | `_partials/notifications.tpl` |
+| Erreurs de formulaire, champs invalides | `_partials/form-fields.tpl`, `_partials/form-errors.tpl` |
+| Panier vide, recherche sans résultat, liste sans produit | `checkout/cart-empty.tpl`, `catalog/_partials/products.tpl` / `errors/not-found.tpl` |
+| Menu mobile ouvert, recherche ouverte, sous-menus | tpl de `ps_mainmenu` et `ps_searchbar` du parent |
+| Chargements (spinner pendant AJAX), boutons désactivés, rupture de stock | grep `spinner`, `disabled`, `product-unavailable` dans le parent |
+| Modale rapide (quickview), favoris (blockwishlist) | `catalog/_partials/quickview.tpl`, tpl du module |
+
+Pour chacun : déclencher l'état réellement (ajout au panier, formulaire envoyé vide…) et le capturer.
 
 ### Placer un module dans la page
 
@@ -102,26 +118,58 @@ grep -rhoE 'class="[^"]*"' themes/<parent>/templates | sed 's/^class="//; s/"$//
 ## 4. Ordre de travail
 
 1. Inventaire (§ 1 et 2) validé par l'utilisateur, noté dans `PRESTASHOP.md` § Intégration. Demander aussi : **intégration seule, ou aussi paramétrage des modules** (liens du menu, blocs du footer, textes…) ? Si oui : [module-config.md](module-config.md).
-2. Thème enfant, choix SCSS ou CSS demandé à l'utilisateur, chaîne de build si SCSS (themes.md). Variables, polices, icônes.
+2. Thème enfant, choix SCSS ou CSS demandé à l'utilisateur, chaîne de build si SCSS (themes.md). Variables, polices (+ préchargement, § 5), icônes.
 3. Composants communs.
 4. Pages, une par une : `{extends file='parent:…'}` et seulement les `{block}` qui changent.
 5. Tpl des modules visibles, surchargés dans le thème.
+6. États dynamiques (§ 2) et traductions manquantes.
+7. Passe performance (§ 5) et mesure Lighthouse.
 
-Après chaque étape : vider le cache, vérifier mobile et desktop.
+Après chaque étape : vider le cache, vérifier aux largeurs du § 5, comparer à la maquette.
 
-## 5. Performance et propreté
+## 5. Responsive, performance et propreté
 
-- Polices : `woff2`, auto-hébergées, `font-display: swap`, ne charger que les graisses utilisées.
-- Images : passer par les types d'image PrestaShop (`{$product.cover.bySize.<type>.url}`) ; créer un type d'image plutôt que redimensionner en CSS. `loading="lazy"` hors premier écran, `width`/`height` renseignés.
-- Un seul CSS / JS de thème buildé et minifié. Assets spécifiques à une page : déclarés pour cette page seulement (`assets.css.<page>` du theme.yml, voir themes.md).
-- Pas de librairie JS ajoutée pour un effet faisable en CSS ou déjà fourni par le parent (carrousel, modale…).
+Ces règles valent dès la première ligne écrite, pas en fin de projet.
+
+### Responsive
+
+- Mobile d'abord : écrire le style mobile, puis `@media (min-width: …)` avec les **breakpoints du parent** (Bootstrap 5 : 576 / 768 / 992 / 1200 / 1400 ; Classic : ceux de Bootstrap 4), jamais des valeurs inventées. Maquette sans version mobile : le demander, sinon adapter et lister les choix faits.
+- Largeurs à vérifier à chaque page : 360, 390, 768, 1024, 1280, 1440. Aucun défilement horizontal, rien de coupé, textes lisibles (16 px min. pour les champs, sinon zoom auto sur iOS).
+- Cibles tactiles de 44 px min. (icônes du header, pastilles, quantités), rien qui ne marche qu'au survol : ce qui apparaît au `:hover` (tailles sur les miniatures, sous-menus) doit avoir un équivalent tactile.
+- Utiliser la grille et les utilitaires responsives du parent (`col-md-*`, `d-none d-lg-block`) plutôt que du CSS maison ; tailles fluides avec `clamp()` pour les titres.
+
+### CSS / JS
+
+- Commun à tout le site → `custom.css` / `custom.js` (ou build SCSS). Propre à une page → fichier dédié déclaré seulement pour cette page (`assets.css.<page>` / `assets.js.<page>` du theme.yml, voir themes.md). Exemples : FAQ, fiche produit, tunnel.
+- JS en `position: bottom` avec `attribute: defer` ; pas de jQuery ajouté (`core.js` le fournit déjà en 1.7–8 ; Hummingbird 9 : JS natif). Pas de librairie pour un effet faisable en CSS ou déjà fourni par le parent (carrousel, modale, accordéon : `details`/Bootstrap).
+- En production : activer « Smart cache » CSS et JS (BO > Performances) pour combiner et minifier ; le vider après chaque livraison (versions/<v>.md § Cache).
+- Pas de `!important` sauf pour battre un `!important` du parent ; pas de sélecteurs à rallonge.
+
+### Images
+
+- Toujours via les types d'image PrestaShop (`{$product.cover.bySize.<type>.url}`, `{$product.cover.bySize.<type>.width/height}`) ; créer un type à la taille de la maquette plutôt que réduire en CSS, puis régénérer les miniatures.
+- Formats modernes : 8.0+ génère WebP/AVIF (BO > Design > Paramètres des images, clé `PS_IMAGE_FORMAT`) ; utiliser les `<picture>`/`sources` que le parent sait déjà produire (grep `<picture` dans ses tpl) plutôt que de les réécrire.
+- `loading="lazy"` hors premier écran ; **jamais** sur l'image principale (hero, 1re photo produit, 1res miniatures du listing) : `fetchpriority="high"` sur celle-là. `width`/`height` toujours renseignés (pas de décalage de mise en page).
+- Images de déco en CSS : légères, `image-set()` si plusieurs densités.
+
+### Polices
+
+- `woff2`, auto-hébergées, `font-display: swap`, seulement les graisses et styles utilisés, sous-ensemble latin.
+- Précharger (`<link rel="preload" as="font" crossorigin>`) la ou les 2 polices du premier écran. Hummingbird : il lit `assets/preload.html` du **thème actif** (`_PS_THEME_DIR_`) ; un enfant sans ce fichier perd les préchargements du parent (icônes) → créer `themes/<enfant>/assets/preload.html` avec ses polices (chemins `../fonts/…`, réécrits vers les assets de l'enfant) et, pour celles du parent, leur chemin absolu `/themes/<parent>/assets/fonts/…`.
+
+### Propreté
+
 - Pas de texte en dur dans les tpl : `{l s='…' d='Shop.Theme.…'}` ; pas d'URL en dur : `{$urls.*}`.
-- Accessibilité : `alt` des images, labels des champs, contrastes de la maquette vérifiés, navigation clavier sur menu et modales.
+- Accessibilité : `alt` des images, labels des champs, contrastes de la maquette vérifiés, focus visible, navigation clavier sur menu et modales.
+- Mesurer à la fin : Lighthouse (mobile) sur accueil, catégorie, produit ; signaler LCP, CLS et poids des pages à l'utilisateur.
 
 ## Vérification avant de rendre la main
 
 - Pages et éléments légaux listés à l'utilisateur, ceux qui existent intégrés.
 - Chaque page maquettée comparée **côte à côte** à sa maquette (captures à la même largeur, desktop et mobile) : écarts listés à l'utilisateur, corrigés ou justifiés. Une page « jolie » n'est pas une page conforme.
+- États dynamiques du § 2 déclenchés et habillés (au minimum : modale d'ajout au panier, notifications, erreurs de formulaire, panier vide, menu mobile).
+- **Aucun texte en anglais** dans la langue de la boutique : le pack de langue officiel ne traduit pas tout le parent (Hummingbird en 9.x). Sur chaque page et chaque état dynamique, repérer les chaînes non traduites (lecture des captures, ou grep du HTML rendu pour des mots anglais courants : `Add|Added|your|cart|Continue|Send|Free|Sort|Search|Remove`) puis les traduire pour le thème (BO > International > Traductions > Thème, ou même table `ps_translation` par script, voir module-config.md) ; lister ce qui a été traduit.
+- Responsive vérifié aux largeurs du § 5, Lighthouse mobile mesuré.
 - Toutes les pages du § 1 affichées sans erreur, y compris celles sans maquette (elles doivent rester cohérentes avec le nouveau style).
 - Aucun fichier copié du parent sans modification.
 - `PRESTASHOP.md` : section Intégration et liste des tpl surchargés à jour.

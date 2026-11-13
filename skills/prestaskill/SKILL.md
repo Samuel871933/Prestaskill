@@ -74,7 +74,7 @@ Si une tâche l'exige, **demande d'abord** en expliquant pourquoi. Ne recopie ja
 | Onglets admin, hook custom, front controller, emails, commande console, webservice, qualité · paiement / transporteur (hors périmètre) | [references/module-types.md](references/module-types.md) |
 | Override de classe, controller ou module | [references/overrides.md](references/overrides.md) |
 | Thème, thème enfant, templates, assets, surcharge de tpl de module | [references/themes.md](references/themes.md) |
-| Intégrer des maquettes (pages, composants communs, positions des modules, JS après AJAX, CSS du parent, tunnel, emails, PDF) | [references/integration.md](references/integration.md) |
+| Intégrer des maquettes (pages, composants communs, états dynamiques, positions des modules, JS après AJAX, CSS du parent, tunnel, emails, PDF, responsive, performance) | [references/integration.md](references/integration.md) |
 | Paramétrer un module installé (menu, liens, blocs, textes) sans le BO | [references/module-config.md](references/module-config.md) |
 | Différences et pièges de la version | `references/versions/<version>.md` |
 | Compatibilité PHP, bug lié à la version de PHP | `references/versions/php.md` |
